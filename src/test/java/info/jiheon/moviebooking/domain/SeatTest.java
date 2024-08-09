@@ -14,32 +14,32 @@ class SeatTest {
 	@DisplayName("좌석예약")
 	void test0() {
 		//given
-		Seat seat = new Seat("A-01");
+		Seat seat = new Seat(1, 1);
 		UUID userId = UUID.randomUUID();
 		//when
 		seat.book(userId);
 		//then
-		assertEquals(userId, seat.getRegisterId());
+		assertEquals(userId, seat.getBookedUserId());
 	}
 
 	@Test
 	@DisplayName("좌석취소")
 	void test1() {
 		//given
-		Seat seat = new Seat("A-01");
+		Seat seat = new Seat(1, 1);
 		UUID userId = UUID.randomUUID();
 		seat.book(userId);
 		//when
-		seat.cancelBook(userId);
+		seat.cancelBooking(userId);
 		//then
-		assertNull(seat.getRegisterId());
+		assertNull(seat.getBookedUserId());
 
 	}
 
 	@Test
 	@DisplayName("한번 좌석이 예약되면, 다른 사람이 예약할 수 없다")
 	void test2() {
-		Seat seat = new Seat("A-01");
+		Seat seat = new Seat(1, 1);
 		UUID userId1 = UUID.randomUUID();
 
 		seat.book(userId1);
@@ -53,12 +53,12 @@ class SeatTest {
 	@Test
 	@DisplayName("좌석은 예약된 사람만 취소할 수 있다")
 	void test3() {
-		Seat seat = new Seat("A-01");
+		Seat seat = new Seat(0, 0);
 		UUID userId1 = UUID.randomUUID();
 		seat.book(userId1);
 
 		UUID userId2 = UUID.randomUUID();
-		assertThatThrownBy(() -> seat.cancelBook(userId2))
+		assertThatThrownBy(() -> seat.cancelBooking(userId2))
 			.isInstanceOf(IllegalStateException.class);
 
 	}

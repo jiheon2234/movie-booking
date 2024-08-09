@@ -10,16 +10,16 @@ import lombok.NonNull;
 public class Seat {
 
 	/* 좌석번호(생성시 부여) */
-	private final String SEAT_NAME;
+	private final String seatName;
 
 	/* 예약한 유저 아이디*/
-	private UUID registerId;
+	private UUID bookedUserId;
 
 	/**
 	 * @return 예약가능여부
 	 */
 	public boolean canBook() {
-		return Objects.isNull(registerId);
+		return Objects.isNull(bookedUserId);
 	}
 
 	/**
@@ -28,9 +28,9 @@ public class Seat {
 	 */
 	public void book(@NonNull UUID userId) {
 		if (!canBook()) {
-			throw new IllegalStateException("%s번 좌석은 이미 예약됨".formatted(SEAT_NAME));
+			throw new IllegalStateException("%s번 좌석은 이미 예약됨".formatted(seatName));
 		}
-		this.registerId = userId;
+		this.bookedUserId = userId;
 	}
 
 	/**
@@ -39,23 +39,22 @@ public class Seat {
 	 * @param userId 예약을 취소하는 유저의 UUID
 	 * @throws IllegalStateException 좌석이 예약되지 않은 상태인 경우 또는 예약한 유저가 아닌 경우
 	 */
-	public void cancelBook(@NonNull UUID userId) {
+	public void cancelBooking(@NonNull UUID userId) {
 		if (canBook()) {
-			throw new IllegalStateException("%s번 좌석은 예약되지 않은 상태입니다".formatted(SEAT_NAME));
+			throw new IllegalStateException("%s번 좌석은 예약되지 않은 상태입니다".formatted(seatName));
 		}
-		if (!registerId.equals(userId)) {
-			throw new IllegalStateException("%s번 좌석은 %s만 취소가능".formatted(SEAT_NAME, registerId));
+		if (!bookedUserId.equals(userId)) {
+			throw new IllegalStateException("%s번 좌석은 %s만 취소가능".formatted(seatName, bookedUserId));
 		}
-		this.registerId = null;
+		this.bookedUserId = null;
 	}
 
 	/**
-	 * 유일한 생성자
-	 *
-	 * @param seatName 생성시 자동으로 부여될 좌석번호 EX) A-01
+	 * @param rowI rowIdx
+	 * @param colI colIdx
 	 */
-	public Seat(@NonNull String seatName) {
-		this.SEAT_NAME = seatName;
+	public Seat(int rowI, int colI) {
+		this.seatName = String.format("%c-%02d", 'A' + rowI, colI + 1);
 	}
 
 }
