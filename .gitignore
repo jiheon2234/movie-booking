@@ -39,3 +39,5 @@ out/
 
 .DS_STORE
 .idea/
+/src/test/java/info/jiheon/moviebooking/mytest
+
