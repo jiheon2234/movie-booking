@@ -17,7 +17,7 @@ class SeatTest {
 		Seat seat = new Seat("A-01");
 		UUID userId = UUID.randomUUID();
 		//when
-		seat.register(userId);
+		seat.book(userId);
 		//then
 		assertEquals(userId, seat.getRegisterId());
 	}
@@ -28,8 +28,10 @@ class SeatTest {
 		//given
 		Seat seat = new Seat("A-01");
 		UUID userId = UUID.randomUUID();
-		seat.register(userId);
-		seat.unregister(userId);
+		seat.book(userId);
+		//when
+		seat.cancelBook(userId);
+		//then
 		assertNull(seat.getRegisterId());
 
 	}
@@ -40,10 +42,10 @@ class SeatTest {
 		Seat seat = new Seat("A-01");
 		UUID userId1 = UUID.randomUUID();
 
-		seat.register(userId1);
+		seat.book(userId1);
 
 		UUID userId2 = UUID.randomUUID();
-		assertThatThrownBy(() -> seat.register(userId2))
+		assertThatThrownBy(() -> seat.book(userId2))
 			.isInstanceOf(IllegalStateException.class);
 
 	}
@@ -53,10 +55,10 @@ class SeatTest {
 	void test3() {
 		Seat seat = new Seat("A-01");
 		UUID userId1 = UUID.randomUUID();
-		seat.register(userId1);
+		seat.book(userId1);
 
 		UUID userId2 = UUID.randomUUID();
-		assertThatThrownBy(() -> seat.unregister(userId2))
+		assertThatThrownBy(() -> seat.cancelBook(userId2))
 			.isInstanceOf(IllegalStateException.class);
 
 	}
