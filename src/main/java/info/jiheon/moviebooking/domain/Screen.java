@@ -3,6 +3,8 @@ package info.jiheon.moviebooking.domain;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.NonNull;
+
 /**
  * 상영관
  */
@@ -24,13 +26,13 @@ public interface Screen {
 	 * @param cnt      예약할 좌석 수
 	 * @return 예약된 좌석 이름들 ex)["A-01"]
 	 */
-	List<String> book(UUID userId, int row, int colStart, int cnt);
+	List<String> book(@NonNull UUID userId, int row, int colStart, int cnt);
 
 	/**
 	 * 예약취소 메서드
 	 *
 	 * @param userId 유저아이디
 	 */
-	void cancelBooking(UUID userId);
+	void cancelBooking(@NonNull UUID userId);
 
 }
